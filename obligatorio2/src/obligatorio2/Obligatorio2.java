@@ -1,21 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package obligatorio2;
 
-/**
- *
- * @author pablo
- */
+
+
+package obligatorio2;
+import interfaz.*;
+import dominio.*;
+
 public class Obligatorio2 {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Sistema sistema=new Sistema();
+        
+        Categoria cat1=new Categoria("carnes",4,"carnes blancas");
+        Categoria cat2=new Categoria("bebidas",7,"bebidas de todo tipo");
+        sistema.agregarCategoria(cat1);
+        sistema.agregarCategoria(cat2);
+        VentanaPrincipal vent= new VentanaPrincipal(sistema);
+        vent.setVisible(true);
     }
     
 }

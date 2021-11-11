@@ -39,6 +39,9 @@ public class Categoria {
     public String toString(){
         return this.descripcion;
     }
-    
+   
+    public boolean equals(Object o){
+        return this.descripcion.equals(((Categoria)o).descripcion);
+    }
     
 }

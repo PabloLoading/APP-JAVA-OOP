@@ -36,7 +36,9 @@ public class Cliente {
         this.telefono = telefono;
     }
     
-    
+    public String toString(){
+        return nombre+" ("+telefono+")";
+    }
     
     
 }

@@ -20,16 +20,15 @@ public class VentanaProductos extends javax.swing.JFrame {
     public VentanaProductos(Sistema s) {
         modelo=s;
         initComponents();
-        lstDefault.setListData(modelo.getListaCategorias().toArray());
-        listaDefault= new DefaultListModel<>();
-        listaFinal= new DefaultListModel<>();  
-        llenarLista();
+        listaDefault= new ArrayList<>();
+        listaFinal= new ArrayList<>();  
+        clonarLista();
+        lstDefault.setListData(listaDefault.toArray());
     }
-    public void llenarLista(){
-        ArrayList<Categoria> lista = modelo.getListaCategorias();
-        for (int i = 0; i < lista.size(); i++) {
-            Categoria el=lista.get(i);
-            listaDefault.addElement((Categoria)el);
+    public void clonarLista(){
+        listaDefault = modelo.getListaCategorias();
+        for (int i = 0; i < listaDefault.size(); i++) {
+            listaDefault.get(i).clone();
         }
     }
     public void cargarListas(){
@@ -205,16 +204,24 @@ public class VentanaProductos extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
         try{
-            Categoria[] cat= new Categoria[listaFinal.size()];
-            for (int i = 0; i < listaFinal.size(); i++) {
-                cat[i]=(Categoria)listaFinal.get(i);
+            if("".equals(txtNombre.getText())){
+                JOptionPane.showMessageDialog(this,"Ingrese el nombre del producto","Advertencia",2);
             }
-            String nombre=txtNombre.getText();
-            int precio=Integer.parseInt(txtPrecio.getText());
-            Producto p=new Producto(nombre,precio,cat);
-            modelo.agregarProducto(p);
-            JOptionPane.showMessageDialog(this,"El Producto ha sido ingresado correctamente","Información",1);
-            dispose();
+            else if(listaFinal.size()==0){
+                JOptionPane.showMessageDialog(this,"Ingrese al menos 1 categoria","Advertencia",2);
+            }
+            else{
+                Categoria[] cat= new Categoria[listaFinal.size()];
+                for (int i = 0; i < listaFinal.size(); i++) {
+                    cat[i]=(Categoria)listaFinal.get(i);
+                }
+                String nombre=txtNombre.getText();
+                int precio=Integer.parseInt(txtPrecio.getText());
+                Producto p=new Producto(nombre,precio,cat);
+                modelo.agregarProducto(p);
+                JOptionPane.showMessageDialog(this,"El Producto ha sido ingresado correctamente","Información",1);
+                dispose();
+            }
         }
         catch(java.lang.NumberFormatException e){
             JOptionPane.showMessageDialog(this,"Ingrese el precio del producto","Advertencia",2);
@@ -225,55 +232,41 @@ public class VentanaProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try{
             Categoria c=(Categoria)lstDefault.getSelectedValue();
             int pos=lstDefault.getSelectedIndex();
-            boolean repetido=false;
-            for(int i=0;i<listaFinal.getSize() && !repetido;i++){
-                if(listaFinal.get(i).equals(c)){
-                    repetido=true;
+            if(pos!=-1){
+                boolean repetido=false;
+                for(int i=0;i<listaFinal.size() && !repetido;i++){
+                    if(listaFinal.get(i).equals(c)){
+                        repetido=true;
+                    }
+                }
+                if(!repetido){
+                   listaFinal.add(c);
+                   listaDefault.remove(pos);
+                   cargarListas();
                 }
             }
-            if(!repetido){
-               listaFinal.addElement(c);
-               listaDefault.removeElementAt(pos);
-               cargarListas();
-            }
-            System.out.println("entre");
-        }
-        
-        catch(java.lang.ArrayIndexOutOfBoundsException e){
-            System.out.println("error");
-        }
-        catch(java.lang.NullPointerException f){
-            System.out.println("error");
-        }
+            
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        try{
             Categoria c=(Categoria)lstFinal.getSelectedValue();
             int pos=lstFinal.getSelectedIndex();
-            boolean repetido=false;
-            for(int i=0;i<listaDefault.getSize() && !repetido;i++){
-                if(listaDefault.get(i).equals(c)){
-                    repetido=true;
+            if(pos!=-1){
+                boolean repetido=false;
+                for(int i=0;i<listaDefault.size() && !repetido;i++){
+                    if(listaDefault.get(i).equals(c)){
+                        repetido=true;
+                    }
+                }
+                if(!repetido){
+                    listaDefault.add(c);
+                    listaFinal.remove(pos);
+                    cargarListas();
                 }
             }
-            if(!repetido){
-               listaDefault.addElement(c);
-               listaFinal.removeElementAt(pos);
-               cargarListas();
-            }
-            System.out.println("entre");
-        }
-        catch(java.lang.ArrayIndexOutOfBoundsException e){
-                System.out.println("error");
-        }
-        catch(java.lang.NullPointerException f){
-            System.out.println("error");
-        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void lstDefaultValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstDefaultValueChanged
@@ -298,6 +291,6 @@ public class VentanaProductos extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
-    private DefaultListModel listaDefault;
-    private DefaultListModel listaFinal;
+    private ArrayList<Categoria> listaDefault;
+    private ArrayList<Categoria> listaFinal;
 }

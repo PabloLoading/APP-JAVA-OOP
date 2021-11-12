@@ -44,4 +44,14 @@ public class Categoria {
         return this.descripcion.equals(((Categoria)o).descripcion);
     }
     
+    public Object clone(){
+        Object obj=null;
+        try{
+            obj=super.clone();
+        }
+        catch(CloneNotSupportedException e){
+        }
+        return obj;
+    }
+    
 }

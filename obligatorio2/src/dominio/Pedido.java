@@ -6,29 +6,32 @@
 package dominio;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  *
  * @author pablo
  */
-public class Pedido {
+public class Pedido{
+    private int numero;
     private Cliente cliente;
     private ArrayList<Producto> listaProductos;
     private String observaciones;
     private int precio;
 
-    public Pedido(Cliente cliente, ArrayList<Producto> producto, String observaciones, int precio) {
-        this.cliente = cliente;
-        this.listaProductos = producto;
-        this.observaciones = observaciones;
-        this.precio = precio;
+    public Pedido() {
+        this.numero=1;
+        this.cliente = null;
+        this.listaProductos = new ArrayList<Producto>();
+        this.observaciones ="";
+        this.precio = 0;
     }
-
+    
     public Cliente getCliente() {
         return cliente;
     }
 
-    private void setCliente(Cliente cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 

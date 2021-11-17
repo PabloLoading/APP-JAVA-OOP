@@ -1,7 +1,9 @@
 
 package dominio;
 
-public class Cliente {
+import java.util.Observable;
+
+public class Cliente{
     private String nombre;
     private String direccion;
     private String telefono;

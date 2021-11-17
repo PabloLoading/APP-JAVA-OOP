@@ -6,13 +6,15 @@
 package interfaz;
 import dominio.*;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.*;
 
 /**
  *
  * @author pablo
  */
-public class VentanaProductos extends javax.swing.JFrame {
+public class VentanaProductos extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form VentanaProductos
@@ -20,13 +22,15 @@ public class VentanaProductos extends javax.swing.JFrame {
     public VentanaProductos(Sistema s) {
         modelo=s;
         initComponents();
+        modelo.addObserver(this);
         listaDefault= new ArrayList<>();
         listaFinal= new ArrayList<>();  
         clonarLista();
         lstDefault.setListData(listaDefault.toArray());
+        
     }
     public void clonarLista(){
-        listaDefault = modelo.getListaCategorias();
+        listaDefault = (ArrayList<Categoria>) modelo.getListaCategorias().clone();
         for (int i = 0; i < listaDefault.size(); i++) {
             listaDefault.get(i).clone();
         }
@@ -54,14 +58,12 @@ public class VentanaProductos extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Nombre");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Precio");
 
         txtPrecio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -82,7 +84,6 @@ public class VentanaProductos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(lstFinal);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Categorías");
 
         lstDefault.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -94,7 +95,6 @@ public class VentanaProductos extends javax.swing.JFrame {
         jScrollPane2.setViewportView(lstDefault);
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Agregar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +103,6 @@ public class VentanaProductos extends javax.swing.JFrame {
         });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Cancelar");
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -220,6 +219,7 @@ public class VentanaProductos extends javax.swing.JFrame {
                 Producto p=new Producto(nombre,precio,cat);
                 modelo.agregarProducto(p);
                 JOptionPane.showMessageDialog(this,"El Producto ha sido ingresado correctamente","Información",1);
+                
                 dispose();
             }
         }
@@ -293,4 +293,12 @@ public class VentanaProductos extends javax.swing.JFrame {
     private Sistema modelo;
     private ArrayList<Categoria> listaDefault;
     private ArrayList<Categoria> listaFinal;
+
+    @Override
+    public void update(Observable o, Object arg) {
+        listaDefault= new ArrayList<>();
+        listaFinal= new ArrayList<>();  
+        clonarLista();
+        cargarListas();
+    }
 }

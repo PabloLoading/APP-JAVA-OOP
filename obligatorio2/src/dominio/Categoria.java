@@ -1,7 +1,9 @@
 
 package dominio;
 
-public class Categoria {
+import java.util.Observable;
+
+public class Categoria{
     private String descripcion;
     private int prioridad;
     private String detalles;

@@ -1,7 +1,9 @@
 
 package dominio;
 
-public class Producto {
+import java.util.Observable;
+
+public class Producto{
     private String nombre;
     private int precio;
     private Categoria[] categorias;
@@ -35,6 +37,8 @@ public class Producto {
     private void setCategorias(Categoria[] categorias) {
         this.categorias = categorias;
     }
-    
+    public String toString(){
+        return nombre+" $"+precio;
+    }
     
 }

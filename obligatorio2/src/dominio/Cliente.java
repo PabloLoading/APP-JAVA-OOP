@@ -41,6 +41,14 @@ public class Cliente{
     public String toString(){
         return nombre+" ("+telefono+")";
     }
-    
+    public Object clone(){
+        Object obj=null;
+        try{
+            obj=super.clone();
+        }
+        catch(CloneNotSupportedException e){
+        }
+        return obj;
+    }
     
 }

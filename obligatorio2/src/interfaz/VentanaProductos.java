@@ -6,6 +6,7 @@
 package interfaz;
 import dominio.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
@@ -219,6 +220,7 @@ public class VentanaProductos extends javax.swing.JFrame implements Observer{
                 Producto p=new Producto(nombre,precio,cat);
                 modelo.agregarProducto(p);
                 JOptionPane.showMessageDialog(this,"El Producto ha sido ingresado correctamente","Información",1);
+                System.out.println(Arrays.toString(p.getCategorias()));
                 
                 dispose();
             }

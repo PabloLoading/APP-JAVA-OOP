@@ -13,6 +13,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -27,7 +28,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         for (int i = 0; i < modelo.getListaCategorias().size(); i++) {
             catBox.addItem(modelo.getListaCategorias().get(i).getDescripcion());
         }
-        ponerProductos();
     }
     
     public void ponerProductos(){
@@ -45,7 +45,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
                         nuevo.setMargin(new Insets(-5, -5, -5, -5));
                         nuevo.setBackground(Color.BLACK);
                         nuevo.setForeground(Color.WHITE);
-                        nuevo.setText(p+"");
+                        nuevo.setText(p.toString());
                         nuevo.addActionListener(new ProductoListener());
                         panelProductos.add(nuevo);
                 } 
@@ -55,8 +55,20 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     
     private class ProductoListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-        JButton cual = ((JButton) e.getSource());
-
+            boolean encontro=false;
+            JButton cual = ((JButton) e.getSource());
+            String t=cual.getText();
+            Producto pFinal=null;
+            for (int i = 0; i <modelo.getListaProductos().size() && !encontro; i++) {
+                if(modelo.getListaProductos().get(i).toString().equals(t)){
+                    encontro=true;
+                    pFinal=modelo.getListaProductos().get(i);
+                    
+                }
+            }
+            modelo.getPedidoActual().agregarProducto(pFinal);
+            modelo.actualizarTodo();
+            
         }
     }
     
@@ -76,7 +88,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel8 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtObs = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jPanel12 = new javax.swing.JPanel();
@@ -96,12 +108,12 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel17 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jPanel18 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblPrecio = new javax.swing.JLabel();
         panelProductos = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        lstProductos = new javax.swing.JList();
         jPanel20 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
         jPanel19 = new javax.swing.JPanel();
@@ -150,7 +162,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jlbClienteActual, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -181,11 +193,17 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtObs, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtObs, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel1.add(jPanel9);
@@ -335,6 +353,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
+        catBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                catBoxItemStateChanged(evt);
+            }
+        });
         catBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 catBoxActionPerformed(evt);
@@ -381,15 +404,23 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
         jPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        lblPrecio.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
+                .addContainerGap(106, Short.MAX_VALUE)
+                .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90))
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel4.add(jPanel18);
@@ -397,18 +428,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         getContentPane().add(jPanel4);
 
         panelProductos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-
-        javax.swing.GroupLayout panelProductosLayout = new javax.swing.GroupLayout(panelProductos);
-        panelProductos.setLayout(panelProductosLayout);
-        panelProductosLayout.setHorizontalGroup(
-            panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 424, Short.MAX_VALUE)
-        );
-        panelProductosLayout.setVerticalGroup(
-            panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 148, Short.MAX_VALUE)
-        );
-
+        panelProductos.setLayout(new java.awt.GridLayout(3, 0));
         getContentPane().add(panelProductos);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -416,12 +436,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
         jPanel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(lstProductos);
 
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
@@ -439,6 +454,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel20.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton7.setText("Eliminar Item");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
@@ -456,6 +476,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton8.setText("Grabar Pedido");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -515,9 +540,61 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_catBoxActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-
+        JOptionPane.showMessageDialog(this,"Se ha reiniciado el pedido","Información",1);
+        modelo.pedidoNuevo();
+        modelo.setNumPedido();
+        modelo.actualizarTodo();
+        txtObs.setText("");
+        
+        
     }//GEN-LAST:event_jButton6ActionPerformed
+    
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        modelo.getPedidoActual().setObservaciones(txtObs.getText());
+        modelo.agregarPedido(modelo.getPedidoActual());
+        JOptionPane.showMessageDialog(this,"Pedido registrado correctamente","Información",1);
+        modelo.pedidoNuevo();
+        modelo.setNumPedido();
+        modelo.actualizarTodo();
+        txtObs.setText("");
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void catBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_catBoxItemStateChanged
+        panelProductos.removeAll();
+        panelProductos.updateUI();
+        ponerProductos();
+    }//GEN-LAST:event_catBoxItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        int pos=lstProductos.getSelectedIndex();
+        if(pos!=-1){
+            Producto p=(Producto) lstProductos.getSelectedValue();
+            modelo.getPedidoActual().eliminarProducto(p);
+            modelo.actualizarTodo();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+    private void mostrarPrecio(){
+        if(!modelo.getPedidoActual().getListaProductos().isEmpty()){
+            modelo.actualizarPrecioPedido();
+            String s="Pedido "+modelo.getPedidoActual().getNumero()+" $"+modelo.getPedidoActual().getPrecio();
+            lblPrecio.setText(s);
+        }
+        else{
+            lblPrecio.setText("");
+        }
+    }
+    private void actualizarLista(){
+        lstProductos.setListData(modelo.getPedidoActual().getListaProductos().toArray());
+    }
+    private void clienteActual(){
+        if(modelo.getPedidoActual().getCliente()!=null){
+            jlbClienteActual.setText(modelo.getPedidoActual().getCliente()+"");
+        }
+        else{
+            jlbClienteActual.setText("");
+        }
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClientes;
@@ -531,8 +608,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -556,22 +631,32 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel jlbClienteActual;
+    private javax.swing.JLabel lblPrecio;
+    private javax.swing.JList lstProductos;
     private javax.swing.JPanel panelProductos;
+    private javax.swing.JTextField txtObs;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
 
     @Override
     public void update(Observable o, Object arg) {
-        if(modelo.getPedidoActual().getCliente()!=null){
-            jlbClienteActual.setText(modelo.pedidoActual.getCliente()+"");
-        }
+        clienteActual();
+        String cDesc=(String)catBox.getSelectedItem();
         catBox.removeAllItems();
+        catBox.addItem(cDesc);
         for (int i = 0; i < modelo.getListaCategorias().size(); i++) {
-            catBox.addItem(modelo.getListaCategorias().get(i).getDescripcion());
+            String newItem=modelo.getListaCategorias().get(i).getDescripcion();
+            if(!newItem.equals(cDesc)){
+                catBox.addItem(newItem);
+            }
         }
+        panelProductos.removeAll();
+        panelProductos.updateUI();
         ponerProductos();
+        mostrarPrecio();
+        
+        actualizarLista();
     }
     
 }

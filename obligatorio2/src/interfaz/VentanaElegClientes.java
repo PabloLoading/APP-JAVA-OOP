@@ -24,7 +24,14 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
         lista.setListData(modelo.getListaClientes().toArray());
         
     }
-
+    
+    
+    public void clonarLista(){
+        listaDefault = (ArrayList<Cliente>) modelo.getListaClientes().clone();
+        for (int i = 0; i < listaDefault.size(); i++) {
+            listaDefault.get(i).clone();
+        }
+    }
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -42,7 +49,7 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -95,10 +102,10 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
             }
         });
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txt.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtActionPerformed(evt);
             }
         });
 
@@ -134,7 +141,7 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
                                         .addGap(18, 18, 18)
                                         .addComponent(txtDirec))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(35, 35, 35)
                                 .addComponent(jButton3)
                                 .addGap(36, 36, 36)
@@ -151,7 +158,7 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
                 .addComponent(jLabel1)
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
@@ -183,7 +190,7 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
         int pos=lista.getSelectedIndex();
         if(pos!=-1){
             Cliente clienteActual = (Cliente)lista.getSelectedValue();
-            modelo.pedidoActual.setCliente(clienteActual);
+            modelo.getPedidoActual().setCliente(clienteActual);
             modelo.actualizarTodo();
             JOptionPane.showMessageDialog(this,"Cliente elegido correctamente","Información",1);
             dispose();
@@ -194,16 +201,23 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        txt.setText("");
+        clonarLista();
+        lista.setListData(listaDefault.toArray());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        for(Cliente c : listaDefault){
+            if(!c.getNombre().toUpperCase().startsWith(txt.getText().toUpperCase())){
+                listaDefault.remove(c);
+            }
+        }
+        lista.setListData(listaDefault.toArray());
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtActionPerformed
 
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
         int pos=lista.getSelectedIndex();
@@ -227,14 +241,16 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JList lista;
+    private javax.swing.JTextField txt;
     private javax.swing.JLabel txtDirec;
     private javax.swing.JLabel txtNombre;
     private javax.swing.JLabel txtTel;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
-
+    private ArrayList<Cliente> listaDefault;
+    
+    
     @Override
     public void update(Observable o, Object arg) {
         lista.setListData(modelo.getListaClientes().toArray());

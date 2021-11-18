@@ -29,8 +29,12 @@ public class Obligatorio2 {
         cats[0]=cat1;
         Producto p1=new Producto("carne roja",120,cats);
         Producto p2=new Producto("carne blanca",140,cats);
+        Categoria[] cats2= new Categoria[1];
+        cats2[0]=cat2;
+        Producto p3=new Producto("Coca Light 600ml",45,cats2);
         sistema.agregarProducto(p1);
         sistema.agregarProducto(p2);
+        sistema.agregarProducto(p3);
     }
     
 }

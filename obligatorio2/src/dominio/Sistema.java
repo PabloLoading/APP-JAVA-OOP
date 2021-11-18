@@ -8,7 +8,7 @@ public class Sistema extends Observable {
     private ArrayList<Cliente> listaClientes;
     private ArrayList<Producto> listaProductos;
     private ArrayList<Categoria> listaCategorias;
-    public Pedido pedidoActual; 
+    private Pedido pedidoActual; 
     
     public Sistema(){
         listaPedidos=new ArrayList<Pedido>();
@@ -58,8 +58,14 @@ public class Sistema extends Observable {
         setChanged();
         notifyObservers();
     }
-    
-    
-    
+    public void pedidoNuevo(){
+        pedidoActual=new Pedido();
+    }
+    public void actualizarPrecioPedido(){
+        pedidoActual.calcularPrecio();
+    }
+    public void setNumPedido(){
+        pedidoActual.setNumero(listaPedidos.size()+1);
+    }
     
 }

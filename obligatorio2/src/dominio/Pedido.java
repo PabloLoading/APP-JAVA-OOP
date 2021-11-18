@@ -26,19 +26,33 @@ public class Pedido{
         this.observaciones ="";
         this.precio = 0;
     }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+    
+    
+    
     
     public Cliente getCliente() {
         return cliente;
     }
-
+    public int getNumero(){
+        return numero;
+    }
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-
+    
     public ArrayList<Producto> getListaProductos() {
         return listaProductos;
     }
-
+    public void agregarProducto(Producto p){
+        listaProductos.add(p);
+    }
+    public void eliminarProducto(Producto p){
+        listaProductos.remove(p);
+    }
     private void setProducto(ArrayList<Producto> p) {
         this.listaProductos = p;
     }
@@ -47,7 +61,7 @@ public class Pedido{
         return observaciones;
     }
 
-    private void setObservaciones(String observaciones) {
+    public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
 
@@ -57,6 +71,20 @@ public class Pedido{
 
     private void setPrecio(int precio) {
         this.precio = precio;
+    }
+    public void calcularPrecio(){
+        int pC=0;
+        for(Producto p : listaProductos){
+            pC+=p.getPrecio();
+        }
+        this.setPrecio(pC);
+    }
+    
+    
+        @Override
+    public String toString(){
+        return "Pedido "+numero+" "+cliente.getNombre();
+               
     }
     
     

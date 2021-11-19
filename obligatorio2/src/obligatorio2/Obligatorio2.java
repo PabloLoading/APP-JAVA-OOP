@@ -9,16 +9,8 @@ import java.io.*;
 public class Obligatorio2 {
 
     public static void main(String[] args) throws IOException {
-        Sistema sistema=null;
-        try{
-            FileInputStream arch=new FileInputStream("datos");
-            ObjectInputStream in = new ObjectInputStream(arch);
-            sistema= (Sistema)in.readObject();
-            in.close();
-        }
-        catch(FileNotFoundException |ClassNotFoundException |ClassCastException | InvalidClassException e){
-            sistema=new Sistema();
-        }
+        Sistema sistema=new Sistema();
+        
 
         VentanaInicio vent=new VentanaInicio(sistema);
         vent.setVisible(true);

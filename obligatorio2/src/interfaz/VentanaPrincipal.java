@@ -27,6 +27,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer{
         modelo=s;
         initComponents();
         modelo.addObserver(this);
+        this.setLocationRelativeTo(null);
         for (int i = 0; i < modelo.getListaCategorias().size(); i++) {
             catBox.addItem(modelo.getListaCategorias().get(i).getDescripcion());
         }

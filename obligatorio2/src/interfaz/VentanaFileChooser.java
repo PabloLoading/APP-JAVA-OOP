@@ -49,55 +49,55 @@ public class VentanaFileChooser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jfileActionPerformed
-        String path=jfile.getSelectedFile().getAbsolutePath();
-        ArchivoLectura archL=new ArchivoLectura(path);
-        while(archL!=null && archL.hayMasLineas()){
-            String[] data=archL.linea().split(";");
-            int numClientes=Integer.parseInt(data[0]);
-            for (int i = 0; i <numClientes; i++) {
-                archL.hayMasLineas();
-                String[] dataC=archL.linea().split(";"); 
-                String nombre=dataC[0];
-                String direccion=dataC[1];
-                String tel=dataC[2];
-                Cliente c=new Cliente(nombre,direccion,tel);
-                modelo.agregarCliente(c);
-            }
-            archL.hayMasLineas();
-            String[] data2=archL.linea().split(";");
-            int numCats=Integer.parseInt(data2[0]);
-            for (int i = 0; i <numCats; i++) {
-                archL.hayMasLineas();
-                String[] dataCats=archL.linea().split(";");
-                String nombre=dataCats[0];
-                String detalles=dataCats[1];
-                int prio=Integer.parseInt(dataCats[2]);
-                Categoria c=new Categoria(nombre,prio,detalles);
-                modelo.agregarCategoria(c);
-            }
-            archL.hayMasLineas();
-            String[] data3=archL.linea().split(";");
-            int numP=Integer.parseInt(data3[0]);
-            for (int i = 0; i <numP; i++) {
-                archL.hayMasLineas();
-                String[] dataP=archL.linea().split(";");
-                String nombre=dataP[0];
-                int precio=Integer.parseInt(dataP[1]);
-                Categoria[] pCats=new Categoria[dataP.length-2];
-                for (int j = 0; j < pCats.length; j++) {
-                    pCats[j]=modelo.buscarCatgoria(dataP[j+2]);
+        try{
+            String path=jfile.getSelectedFile().getAbsolutePath();
+            ArchivoLectura archL=new ArchivoLectura(path);
+            while(archL!=null && archL.hayMasLineas()){
+                String[] data=archL.linea().split(";");
+                int numClientes=Integer.parseInt(data[0]);
+                for (int i = 0; i <numClientes; i++) {
+                    archL.hayMasLineas();
+                    String[] dataC=archL.linea().split(";"); 
+                    String nombre=dataC[0];
+                    String direccion=dataC[1];
+                    String tel=dataC[2];
+                    Cliente c=new Cliente(nombre,direccion,tel);
+                    modelo.agregarCliente(c);
                 }
-                Producto p=new Producto(nombre,precio,pCats);
-                modelo.agregarProducto(p);
-            }
-        }  
-        archL.cerrar();
+                archL.hayMasLineas();
+                String[] data2=archL.linea().split(";");
+                int numCats=Integer.parseInt(data2[0]);
+                for (int i = 0; i <numCats; i++) {
+                    archL.hayMasLineas();
+                    String[] dataCats=archL.linea().split(";");
+                    String nombre=dataCats[0];
+                    String detalles=dataCats[1];
+                    int prio=Integer.parseInt(dataCats[2]);
+                    Categoria c=new Categoria(nombre,prio,detalles);
+                    modelo.agregarCategoria(c);
+                }
+                archL.hayMasLineas();
+                String[] data3=archL.linea().split(";");
+                int numP=Integer.parseInt(data3[0]);
+                for (int i = 0; i <numP; i++) {
+                    archL.hayMasLineas();
+                    String[] dataP=archL.linea().split(";");
+                    String nombre=dataP[0];
+                    int precio=Integer.parseInt(dataP[1]);
+                    Categoria[] pCats=new Categoria[dataP.length-2];
+                    for (int j = 0; j < pCats.length; j++) {
+                        pCats[j]=modelo.buscarCatgoria(dataP[j+2]);
+                    }
+                    Producto p=new Producto(nombre,precio,pCats);
+                    modelo.agregarProducto(p);
+                }
+            }  
+            archL.cerrar();
+        }
+        catch(NumberFormatException | NullPointerException e){}
         dispose();
-        
     }//GEN-LAST:event_jfileActionPerformed
-    /**
-     * @param args the command line arguments
-     */
+     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

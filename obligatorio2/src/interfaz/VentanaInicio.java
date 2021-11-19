@@ -4,21 +4,32 @@
  * and open the template in the editor.
  */
 package interfaz;
+
 import dominio.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+
 /**
  *
  * @author santi
  */
-public class VentanaInicio extends javax.swing.JFrame {
+public class VentanaInicio extends javax.swing.JFrame{
 
     /**
      * Creates new form VentanaInicio
      */
     private Sistema modelo;
+
     public VentanaInicio(Sistema s) {
         modelo = s;
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -30,7 +41,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        btnGroup = new javax.swing.ButtonGroup();
         btnOpcion1 = new javax.swing.JRadioButton();
         btnOpcion2 = new javax.swing.JRadioButton();
         btnOpcion3 = new javax.swing.JRadioButton();
@@ -40,25 +51,28 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        buttonGroup1.add(btnOpcion1);
+        btnGroup.add(btnOpcion1);
         btnOpcion1.setText("Sin datos precargados");
+        btnOpcion1.setActionCommand("1");
         btnOpcion1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpcion1ActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(btnOpcion2);
+        btnGroup.add(btnOpcion2);
         btnOpcion2.setSelected(true);
         btnOpcion2.setText("Con los datos de la última ejecución");
+        btnOpcion2.setActionCommand("2");
         btnOpcion2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpcion2ActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(btnOpcion3);
+        btnGroup.add(btnOpcion3);
         btnOpcion3.setText("Con datos obtenidos de un archivo");
+        btnOpcion3.setActionCommand("3");
         btnOpcion3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpcion3ActionPerformed(evt);
@@ -66,6 +80,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         });
 
         btnArchivo.setText("Archivo");
+        btnArchivo.setEnabled(false);
         btnArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnArchivoActionPerformed(evt);
@@ -126,38 +141,64 @@ public class VentanaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpcion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpcion1ActionPerformed
-        
+        validar();
     }//GEN-LAST:event_btnOpcion1ActionPerformed
 
     private void btnOpcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpcion2ActionPerformed
-        // TODO add your handling code here:
+        validar();
     }//GEN-LAST:event_btnOpcion2ActionPerformed
 
     private void btnOpcion3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpcion3ActionPerformed
-        
+        validar();
     }//GEN-LAST:event_btnOpcion3ActionPerformed
 
-    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+    private void iniciar() throws IOException{
+        if(btnGroup.getSelection().getActionCommand().equals("2")){
+            try {
+                FileInputStream arch = new FileInputStream("datos");
+                ObjectInputStream in = new ObjectInputStream(arch);
+                modelo = (Sistema) in.readObject();
+                in.close();
+            }
+            catch (FileNotFoundException | ClassNotFoundException | ClassCastException | InvalidClassException e) {
+                modelo = new Sistema();
+            }
+        }
         
-          VentanaPrincipal vent=new VentanaPrincipal(modelo);
-          vent.setVisible(true);
-          modelo.actualizarTodo();
-          dispose();
+        VentanaPrincipal vent = new VentanaPrincipal(modelo);
+        vent.setVisible(true);
+        modelo.actualizarTodo();
+        dispose();
+        
+    }
+    private void validar(){
+        if(btnGroup.getSelection().getActionCommand().equals("3")){
+            btnArchivo.setEnabled(true);
+        }
+        else{
+            btnArchivo.setEnabled(false);
+        }
+    }
+
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        try {
+            iniciar();
+        } catch (IOException e){}
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoActionPerformed
-        VentanaFileChooser v=new VentanaFileChooser();
+        VentanaFileChooser v = new VentanaFileChooser();
         v.setSistema(modelo);
         v.setVisible(true);
     }//GEN-LAST:event_btnArchivoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnArchivo;
+    private javax.swing.ButtonGroup btnGroup;
     private javax.swing.JButton btnIniciar;
     private javax.swing.JRadioButton btnOpcion1;
     private javax.swing.JRadioButton btnOpcion2;
     private javax.swing.JRadioButton btnOpcion3;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

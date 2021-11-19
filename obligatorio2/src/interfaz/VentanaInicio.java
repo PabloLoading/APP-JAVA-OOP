@@ -49,6 +49,7 @@ public class VentanaInicio extends javax.swing.JFrame {
         });
 
         buttonGroup1.add(btnOpcion2);
+        btnOpcion2.setSelected(true);
         btnOpcion2.setText("Con los datos de la última ejecución");
         btnOpcion2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,6 +66,11 @@ public class VentanaInicio extends javax.swing.JFrame {
         });
 
         btnArchivo.setText("Archivo");
+        btnArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnArchivoActionPerformed(evt);
+            }
+        });
 
         btnIniciar.setText("Iniciar");
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
@@ -120,7 +126,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOpcion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpcion1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnOpcion1ActionPerformed
 
     private void btnOpcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpcion2ActionPerformed
@@ -128,20 +134,22 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnOpcion2ActionPerformed
 
     private void btnOpcion3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpcion3ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnOpcion3ActionPerformed
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
         
           VentanaPrincipal vent=new VentanaPrincipal(modelo);
           vent.setVisible(true);
+          modelo.actualizarTodo();
           dispose();
     }//GEN-LAST:event_btnIniciarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-
+    private void btnArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoActionPerformed
+        VentanaFileChooser v=new VentanaFileChooser();
+        v.setSistema(modelo);
+        v.setVisible(true);
+    }//GEN-LAST:event_btnArchivoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnArchivo;

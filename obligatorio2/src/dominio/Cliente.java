@@ -1,9 +1,10 @@
 
 package dominio;
 
+import java.io.Serializable;
 import java.util.Observable;
 
-public class Cliente{
+public class Cliente implements Serializable{
     private String nombre;
     private String direccion;
     private String telefono;

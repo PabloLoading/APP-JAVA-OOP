@@ -5,6 +5,7 @@
  */
 package dominio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -12,7 +13,7 @@ import java.util.Observable;
  *
  * @author pablo
  */
-public class Pedido{
+public class Pedido implements Serializable{
     private int numero;
     private Cliente cliente;
     private ArrayList<Producto> listaProductos;

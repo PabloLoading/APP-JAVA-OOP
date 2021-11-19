@@ -1,9 +1,9 @@
 
 package dominio;
 
-import java.util.Observable;
+import java.io.Serializable;
 
-public class Producto{
+public class Producto implements Serializable{
     private String nombre;
     private int precio;
     private Categoria[] categorias;

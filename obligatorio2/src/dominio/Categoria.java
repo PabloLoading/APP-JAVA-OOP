@@ -1,9 +1,10 @@
 
 package dominio;
 
+import java.io.Serializable;
 import java.util.Observable;
 
-public class Categoria{
+public class Categoria implements Serializable{
     private String descripcion;
     private int prioridad;
     private String detalles;

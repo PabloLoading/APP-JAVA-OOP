@@ -1,9 +1,10 @@
 
 package dominio;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Sistema extends Observable {
+public class Sistema extends Observable implements Serializable{
     private ArrayList<Pedido> listaPedidos;
     private ArrayList<Cliente> listaClientes;
     private ArrayList<Producto> listaProductos;
@@ -61,11 +62,42 @@ public class Sistema extends Observable {
     public void pedidoNuevo(){
         pedidoActual=new Pedido();
     }
+    public Categoria buscarCatgoria(String n){
+        boolean encontro=false;
+        Categoria cat=null;
+        for (int i = 0; i <listaCategorias.size() && !encontro; i++) {
+            if(listaCategorias.get(i).getDescripcion().equals(n)){
+                encontro=true;
+                cat=listaCategorias.get(i);
+            }
+        }
+        return cat;
+    }
+    
+    
     public void actualizarPrecioPedido(){
         pedidoActual.calcularPrecio();
     }
     public void setNumPedido(){
         pedidoActual.setNumero(listaPedidos.size()+1);
     }
+    public void ordenarPorDescripcion(){
+        Collections.sort(listaCategorias,new Comparator<Categoria>(){
+            public int compare(Categoria cat1,Categoria cat2){
+                return cat1.getDescripcion().toLowerCase().compareTo(cat2.getDescripcion().toLowerCase());
+            }
+        });
+    }
+    public void ordenarPorPrioridad(){
+    listaCategorias.sort(new criterioPrioridad());
+    }
+    private class criterioPrioridad implements Comparator<Categoria>{
+       @Override
+       public int compare(Categoria cat1,Categoria cat2){
+       return cat2.getPrioridad()-cat1.getPrioridad();
+       }
     
-}
+    }
+    
+    }
+

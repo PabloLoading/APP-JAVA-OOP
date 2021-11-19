@@ -9,17 +9,19 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Observable;
-import java.util.Observer;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
+import java.util.*;
+import javax.swing.*;
 import javax.swing.JPanel;
 
 /**
  *
  * @author pablo
  */
-public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
+public class VentanaPrincipal extends javax.swing.JFrame implements Observer{
 
     public VentanaPrincipal(Sistema s) {
         modelo=s;
@@ -72,6 +74,14 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         }
     }
     
+    public void ordenarCategorias(){
+        if(btnGroupCategorias.getSelection().getActionCommand().equals("1")){
+            modelo.ordenarPorDescripcion();
+        }
+        else if(btnGroupCategorias.getSelection().getActionCommand().equals("2")){
+            modelo.ordenarPorPrioridad();
+        }
+    }
     
     
     
@@ -79,7 +89,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        btnGroupCategorias = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -90,9 +100,9 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel9 = new javax.swing.JPanel();
         txtObs = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        btnCatOrd1 = new javax.swing.JRadioButton();
         jPanel12 = new javax.swing.JPanel();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        btnCatOrd2 = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         btnClientes = new javax.swing.JButton();
@@ -121,6 +131,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ROTISERÍA");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridLayout(3, 2));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -143,7 +158,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
         );
 
         jPanel1.add(jPanel10);
@@ -182,7 +197,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
         );
 
         jPanel1.add(jPanel8);
@@ -202,7 +217,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtObs, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addComponent(txtObs, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -210,12 +225,14 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
 
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Categorías por orden alfabético");
-        jRadioButton1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnGroupCategorias.add(btnCatOrd1);
+        btnCatOrd1.setSelected(true);
+        btnCatOrd1.setText("Categorías por orden alfabético");
+        btnCatOrd1.setActionCommand("1");
+        btnCatOrd1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnCatOrd1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                btnCatOrd1ActionPerformed(evt);
             }
         });
 
@@ -223,23 +240,24 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+            .addComponent(btnCatOrd1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+            .addComponent(btnCatOrd1, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
         );
 
         jPanel1.add(jPanel11);
 
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Categorías por orden Prioridad");
-        jRadioButton2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnGroupCategorias.add(btnCatOrd2);
+        btnCatOrd2.setText("Categorías por orden Prioridad");
+        btnCatOrd2.setActionCommand("2");
+        btnCatOrd2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnCatOrd2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                btnCatOrd2ActionPerformed(evt);
             }
         });
 
@@ -247,11 +265,11 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jRadioButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnCatOrd2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jRadioButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+            .addComponent(btnCatOrd2, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
         );
 
         jPanel1.add(jPanel12);
@@ -278,7 +296,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+            .addComponent(btnClientes, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         jPanel2.add(jPanel16);
@@ -300,7 +318,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         jPanel2.add(jPanel15);
@@ -322,7 +340,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         jPanel2.add(jPanel14);
@@ -344,7 +362,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         jPanel2.add(jPanel13);
@@ -372,7 +390,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(catBox, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+            .addComponent(catBox, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel3);
@@ -397,7 +415,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
         );
 
         jPanel4.add(jPanel17);
@@ -420,7 +438,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jPanel4.add(jPanel18);
@@ -468,7 +486,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         jPanel6.add(jPanel20);
@@ -490,7 +508,7 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         jPanel6.add(jPanel19);
@@ -500,9 +518,22 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    
+    public void rButon(){
+        ordenarCategorias();
+        catBox.removeAllItems();
+        for (int i = 0; i < modelo.getListaCategorias().size(); i++) {
+            String newItem=modelo.getListaCategorias().get(i).getDescripcion();
+                catBox.addItem(newItem);
+        }
+        panelProductos.removeAll();
+        panelProductos.updateUI();
+        ponerProductos();
+    }
+    
+    private void btnCatOrd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatOrd1ActionPerformed
+        rButon();
+    }//GEN-LAST:event_btnCatOrd1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try{
@@ -528,8 +559,9 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
         vent.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    private void btnCatOrd2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatOrd2ActionPerformed
+        rButon();
+    }//GEN-LAST:event_btnCatOrd2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
            VentanaPedidos vent= new VentanaPedidos(modelo);
@@ -563,17 +595,33 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private void catBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_catBoxItemStateChanged
         panelProductos.removeAll();
         panelProductos.updateUI();
+        ordenarCategorias();
         ponerProductos();
+        
     }//GEN-LAST:event_catBoxItemStateChanged
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        int pos=lstProductos.getSelectedIndex();
-        if(pos!=-1){
-            Producto p=(Producto) lstProductos.getSelectedValue();
+        Object[] productos = lstProductos.getSelectedValues();
+        if(productos.length!=0){
+            for (int i = 0; i < productos.length; i++) {
+            Producto p=(Producto) productos[i];
             modelo.getPedidoActual().eliminarProducto(p);
             modelo.actualizarTodo();
+            }
+
         }
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try{
+            FileOutputStream archOut=new FileOutputStream("datos");
+            ObjectOutputStream out=new ObjectOutputStream(archOut);
+            out.writeObject(modelo);
+            out.close();
+        }
+        catch(IOException e){}
+
+    }//GEN-LAST:event_formWindowClosing
     private void mostrarPrecio(){
         if(!modelo.getPedidoActual().getListaProductos().isEmpty()){
             modelo.actualizarPrecioPedido();
@@ -597,8 +645,10 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton btnCatOrd1;
+    private javax.swing.JRadioButton btnCatOrd2;
     private javax.swing.JButton btnClientes;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup btnGroupCategorias;
     private javax.swing.JComboBox<String> catBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
@@ -628,8 +678,6 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jlbClienteActual;
     private javax.swing.JLabel lblPrecio;
@@ -642,20 +690,27 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         clienteActual();
-        String cDesc=(String)catBox.getSelectedItem();
+        
+        String cName=(String)catBox.getSelectedItem();
         catBox.removeAllItems();
-        catBox.addItem(cDesc);
         for (int i = 0; i < modelo.getListaCategorias().size(); i++) {
             String newItem=modelo.getListaCategorias().get(i).getDescripcion();
-            if(!newItem.equals(cDesc)){
                 catBox.addItem(newItem);
+        }
+        //busca pos de Cat seleccionada, y la setea seleccionada
+        boolean encontro=false;
+        for (int i = 0; i <modelo.getListaCategorias().size() && !encontro; i++) {
+            if(modelo.getListaCategorias().get(i).getDescripcion().equals(cName)){
+                encontro=true;
+                catBox.setSelectedIndex(i);
+                
             }
         }
+        
         panelProductos.removeAll();
         panelProductos.updateUI();
         ponerProductos();
         mostrarPrecio();
-        
         actualizarLista();
     }
     

@@ -21,12 +21,15 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
         modelo=s;
         initComponents();
         modelo.addObserver(this);
-        lista.setListData(modelo.getListaClientes().toArray());
+        this.setLocationRelativeTo(null);
+        clonarLista();
+        lista.setListData(listaDefault.toArray());
         
     }
     
     
     public void clonarLista(){
+        listaDefault=new ArrayList<Cliente>();
         listaDefault = (ArrayList<Cliente>) modelo.getListaClientes().clone();
         for (int i = 0; i < listaDefault.size(); i++) {
             listaDefault.get(i).clone();
@@ -207,11 +210,20 @@ public class VentanaElegClientes extends javax.swing.JFrame implements Observer 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        for(Cliente c : listaDefault){
+        
+        Iterator<Cliente> it=listaDefault.iterator();
+        while(it.hasNext()){
+            Cliente c=(Cliente)it.next();
             if(!c.getNombre().toUpperCase().startsWith(txt.getText().toUpperCase())){
-                listaDefault.remove(c);
+                it.remove();
             }
         }
+        
+        /*for(Cliente c : listaDefault){
+            if(!.getNombre().toUpperCase().startsWith(txt.getText().toUpperCase())){
+                listaDefault.remove(c);
+            }
+        }*/
         lista.setListData(listaDefault.toArray());
     }//GEN-LAST:event_jButton3ActionPerformed
 

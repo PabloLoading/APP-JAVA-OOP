@@ -27,6 +27,7 @@ public class VentanaProductos extends javax.swing.JFrame implements Observer{
         listaDefault= new ArrayList<>();
         listaFinal= new ArrayList<>();  
         clonarLista();
+        this.setLocationRelativeTo(null);
         lstDefault.setListData(listaDefault.toArray());
         
     }
@@ -209,11 +210,18 @@ public class VentanaProductos extends javax.swing.JFrame implements Observer{
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
         try{
-            if("".equals(txtNombre.getText())){
+            if(!modelo.stringValido(txtNombre.getText())){
                 JOptionPane.showMessageDialog(this,"Ingrese el nombre del producto","Advertencia",2);
             }
             else if(listaFinal.size()==0){
                 JOptionPane.showMessageDialog(this,"Ingrese al menos 1 categoria","Advertencia",2);
+            }else if(!modelo.stringValido(txtPrecio.getText())){
+                JOptionPane.showMessageDialog(this,"Ingrese el precio del producto","Advertencia",2);
+            }else if(!modelo.esNumero(txtPrecio.getText())){
+                JOptionPane.showMessageDialog(this,"El precio solo debe incluir números","Advertencia",2);
+            }
+            else if(!modelo.productoValido(txtNombre.getText())){
+                JOptionPane.showMessageDialog(this,"Ya existe un producto con ese nombre","Advertencia",2);
             }
             else{
                 Categoria[] cat= new Categoria[listaFinal.size()];
@@ -281,7 +289,7 @@ public class VentanaProductos extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_lstDefaultValueChanged
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
    

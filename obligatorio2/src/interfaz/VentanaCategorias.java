@@ -19,6 +19,7 @@ public class VentanaCategorias extends javax.swing.JFrame {
     public VentanaCategorias(Sistema s) {
         modelo=s;
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -43,11 +44,9 @@ public class VentanaCategorias extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Descripción");
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Agregar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,8 +55,12 @@ public class VentanaCategorias extends javax.swing.JFrame {
         });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         txtDesc.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtDesc.addActionListener(new java.awt.event.ActionListener() {
@@ -67,14 +70,12 @@ public class VentanaCategorias extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Detalles");
 
         intPrio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         intPrio.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Prioridad");
 
         txtArea.setColumns(20);
@@ -131,19 +132,30 @@ public class VentanaCategorias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(modelo.stringValido(txtDesc.getText())&&modelo.categoriaValido(txtDesc.getText())){
         String desc=txtDesc.getText();
         int prio=(int)intPrio.getValue();
         String detalles=txtArea.getText();
         Categoria c=new Categoria(desc,prio,detalles);
         modelo.agregarCategoria(c);
         JOptionPane.showMessageDialog(this,"La categoria ha sido ingresada correctamente","Información",1);
-        dispose();
+        dispose();}
+        else if(!modelo.stringValido(txtDesc.getText())){
+            JOptionPane.showMessageDialog(this,"La categoría debe tener descripción","Advertencia",2);
+        }
+        else if(!modelo.categoriaValido(txtDesc.getText())){
+            JOptionPane.showMessageDialog(this,"Ya existe una categoría con la descricipción ingresada","Advertencia",2);
+        }
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void txtDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     
 

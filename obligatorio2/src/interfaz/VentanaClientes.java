@@ -19,8 +19,12 @@ public class VentanaClientes extends javax.swing.JFrame {
     public VentanaClientes(Sistema s) {
         modelo=s;
         initComponents();
+        this.setLocationRelativeTo(null);
     }
-
+    
+    public boolean datosValidos(String a,String b,String c){
+    return (modelo.stringValido(a)&&modelo.stringValido(b)&&modelo.stringValido(c));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,15 +48,12 @@ public class VentanaClientes extends javax.swing.JFrame {
         setTitle("Ingreso de Clientes");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Nombre");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Dirección");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Teléfono");
 
         txtDireccion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -67,11 +68,14 @@ public class VentanaClientes extends javax.swing.JFrame {
         });
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Agregar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,11 +158,25 @@ public class VentanaClientes extends javax.swing.JFrame {
         String nombre=txtNombre.getText();
         String direccion=txtDireccion.getText();
         String telefono=txtTelefono.getText();
+        if(modelo.clienteValido(nombre)&&datosValidos(nombre,direccion,telefono)&&modelo.esNumero(telefono)){
         Cliente c=new Cliente(nombre,direccion,telefono);
         modelo.agregarCliente(c);
         JOptionPane.showMessageDialog(this,"El Cliente ha sido ingresado correctamente","Información",1);
         dispose();
+        }
+        else if(!datosValidos(nombre,direccion,telefono)){
+        JOptionPane.showMessageDialog(this,"Ingrese todos los datos del cliente","Advertencia",2);
+        }
+        else if(!modelo.esNumero(telefono)){
+        JOptionPane.showMessageDialog(this,"El telefono debe incluir solamente números","Advertencia",2);}
+        else if(!modelo.clienteValido(nombre)&&datosValidos(nombre,direccion,telefono)){
+        JOptionPane.showMessageDialog(this,"El cliente ingresado ya existe en el sistema","Advertencia",2);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

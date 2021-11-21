@@ -20,6 +20,7 @@ public class VentanaPedidos extends javax.swing.JFrame implements Observer{
         modelo=s;
         initComponents();
         modelo.addObserver(this);
+        this.setLocationRelativeTo(null);
         lstPedidos.setListData(modelo.getListaPedidos().toArray());
 
     }

@@ -583,13 +583,22 @@ public class VentanaPrincipal extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_jButton6ActionPerformed
     
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        modelo.getPedidoActual().setObservaciones(txtObs.getText());
-        modelo.agregarPedido(modelo.getPedidoActual());
-        JOptionPane.showMessageDialog(this,"Pedido registrado correctamente","Información",1);
-        modelo.pedidoNuevo();
-        modelo.setNumPedido();
-        modelo.actualizarTodo();
-        txtObs.setText("");
+        
+        if(modelo.getPedidoActual().getCliente()==null){
+            JOptionPane.showMessageDialog(this,"No se ha grabado el pedido, debe elegir un cliente","Advertencia",2);
+        }
+        else if(modelo.getPedidoActual().getPrecio()==0){
+            JOptionPane.showMessageDialog(this,"No se ha grabado el pedido, debe elegir productos","Advertencia",2);
+        }
+        else{
+            modelo.getPedidoActual().setObservaciones(txtObs.getText());
+            modelo.agregarPedido(modelo.getPedidoActual());
+            JOptionPane.showMessageDialog(this,"Pedido registrado correctamente","Información",1);
+            modelo.pedidoNuevo();
+            modelo.setNumPedido();
+            modelo.actualizarTodo();
+            txtObs.setText("");
+        }
         
     }//GEN-LAST:event_jButton8ActionPerformed
 

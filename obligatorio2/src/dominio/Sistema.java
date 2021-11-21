@@ -98,6 +98,68 @@ public class Sistema extends Observable implements Serializable{
        }
     
     }
-    
+    public boolean stringValido(String unString){
+    boolean esValido=true;
+        if(unString.trim().equals("")){
+            esValido=false;
+        }
+    return esValido;
     }
+    public boolean clienteValido(String unNombre){
+        boolean esValido=stringValido(unNombre);
+        for (int i = 0; i < listaClientes.size()&&esValido; i++) {
+            if(listaClientes.get(i).getNombre().toLowerCase().trim().equals(unNombre.toLowerCase().trim())){
+                esValido=false;
+            }
+            
+        }
+        return esValido;
+    }
+    
+    public boolean productoValido(String unNombre){
+        boolean esValido=stringValido(unNombre);
+        for (int i = 0; i < listaProductos.size()&&esValido; i++) {
+            if(listaProductos.get(i).getNombre().toLowerCase().trim().equals(unNombre.toLowerCase().trim())){
+                esValido=false;
+            }
+    }
+        return esValido;
+    }
+    
+    public boolean categoriaValido(String unNombre){
+        boolean esValido=stringValido(unNombre);
+        for (int i = 0; i < listaCategorias.size()&&esValido; i++) {
+            if(listaCategorias.get(i).getDescripcion().toLowerCase().trim().equals(unNombre.toLowerCase().trim())){
+                esValido=false;
+            }
+        }
+        return esValido;
+    }
+    
+    public boolean esNumero(String num) {
+    if (num == null) {
+        return false;
+    }
+    int length = num.length();
+    if (length == 0) {
+        return false;
+    }
+    int i = 0;
+    if (num.charAt(0) == '-') {
+        if (length == 1) {
+            return false;
+        }
+        i = 1;
+    }
+    for (; i < length; i++) {
+        char c = num.charAt(i);
+        if (c < '0' || c > '9') {
+            return false;
+        }
+    }
+    return true;
+}
+}
+
+    
 

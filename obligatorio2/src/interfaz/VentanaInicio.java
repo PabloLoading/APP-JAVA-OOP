@@ -187,8 +187,7 @@ public class VentanaInicio extends javax.swing.JFrame{
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoActionPerformed
-        VentanaFileChooser v = new VentanaFileChooser();
-        v.setSistema(modelo);
+        VentanaFileChooser v = new VentanaFileChooser(modelo);
         v.setVisible(true);
     }//GEN-LAST:event_btnArchivoActionPerformed
 

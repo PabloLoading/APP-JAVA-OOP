@@ -1,8 +1,7 @@
-
+//Pablo Duran (270956) , Santiago Villar (256345)
 package dominio;
 
 import java.io.Serializable;
-import java.util.Observable;
 
 public class Cliente implements Serializable{
     private String nombre;

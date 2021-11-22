@@ -1,4 +1,4 @@
-
+//Pablo Duran (270956) , Santiago Villar (256345)
 package dominio;
 
 import java.io.Serializable;

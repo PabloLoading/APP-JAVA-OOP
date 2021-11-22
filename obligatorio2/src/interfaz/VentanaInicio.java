@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Pablo Duran (270956) , Santiago Villar (256345)
 package interfaz;
 
 import dominio.*;
@@ -11,9 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
 
 /**
  *
@@ -26,10 +19,12 @@ public class VentanaInicio extends javax.swing.JFrame{
      */
     private Sistema modelo;
 
-    public VentanaInicio(Sistema s) {
+    public VentanaInicio(Sistema s,boolean b) {
         modelo = s;
+        archValid=b;
         initComponents();
         this.setLocationRelativeTo(null);
+        validar();
     }
 
     /**
@@ -61,7 +56,6 @@ public class VentanaInicio extends javax.swing.JFrame{
         });
 
         btnGroup.add(btnOpcion2);
-        btnOpcion2.setSelected(true);
         btnOpcion2.setText("Con los datos de la última ejecución");
         btnOpcion2.setActionCommand("2");
         btnOpcion2.addActionListener(new java.awt.event.ActionListener() {
@@ -71,6 +65,7 @@ public class VentanaInicio extends javax.swing.JFrame{
         });
 
         btnGroup.add(btnOpcion3);
+        btnOpcion3.setSelected(true);
         btnOpcion3.setText("Con datos obtenidos de un archivo");
         btnOpcion3.setActionCommand("3");
         btnOpcion3.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +148,13 @@ public class VentanaInicio extends javax.swing.JFrame{
     }//GEN-LAST:event_btnOpcion3ActionPerformed
 
     private void iniciar() throws IOException{
-        if(btnGroup.getSelection().getActionCommand().equals("2")){
+        
+        switch(btnGroup.getSelection().getActionCommand()){
+            case "1":
+            modelo= new Sistema();
+            break;
+            
+            case "2":
             try {
                 FileInputStream arch = new FileInputStream("datos");
                 ObjectInputStream in = new ObjectInputStream(arch);
@@ -163,6 +164,12 @@ public class VentanaInicio extends javax.swing.JFrame{
             catch (FileNotFoundException | ClassNotFoundException | ClassCastException | InvalidClassException e) {
                 modelo = new Sistema();
             }
+            break;
+            case "3":
+                if(!archValid){
+                    btnIniciar.setEnabled(false);
+                    
+                }
         }
         
         VentanaPrincipal vent = new VentanaPrincipal(modelo);
@@ -174,9 +181,17 @@ public class VentanaInicio extends javax.swing.JFrame{
     private void validar(){
         if(btnGroup.getSelection().getActionCommand().equals("3")){
             btnArchivo.setEnabled(true);
+            if(archValid){
+                btnIniciar.setEnabled(true);
+            }
+            else{
+                btnIniciar.setEnabled(false);
+            }
+            
         }
         else{
             btnArchivo.setEnabled(false);
+            btnIniciar.setEnabled(true);
         }
     }
 
@@ -187,6 +202,7 @@ public class VentanaInicio extends javax.swing.JFrame{
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     private void btnArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoActionPerformed
+        dispose();
         VentanaFileChooser v = new VentanaFileChooser(modelo);
         v.setVisible(true);
     }//GEN-LAST:event_btnArchivoActionPerformed
@@ -200,4 +216,5 @@ public class VentanaInicio extends javax.swing.JFrame{
     private javax.swing.JRadioButton btnOpcion3;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+    private boolean archValid;
 }

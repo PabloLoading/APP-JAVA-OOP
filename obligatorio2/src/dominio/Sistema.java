@@ -72,7 +72,7 @@ public class Sistema extends Observable implements Serializable{
             }
         }
         return cat;
-    }
+    } 
     
     
     public void actualizarPrecioPedido(){
@@ -99,11 +99,11 @@ public class Sistema extends Observable implements Serializable{
     
     }
     public boolean stringValido(String unString){
-    boolean esValido=true;
+        boolean esValido=true;
         if(unString.trim().equals("")){
             esValido=false;
         }
-    return esValido;
+        return esValido;
     }
     public boolean clienteValido(String unNombre){
         boolean esValido=stringValido(unNombre);

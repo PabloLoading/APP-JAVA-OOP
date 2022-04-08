@@ -1,3 +1,2 @@
-# Obligatorio2
+# API JAVA OPP
 Proyecto Programacion 2 - Segundo Semestre ORT
-POO en JAVA
